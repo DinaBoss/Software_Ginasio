@@ -1,0 +1,22 @@
+# Arquivos executáveis
+*.exe
+*.o
+
+# Arquivos de compilação
+*.obj
+*.dll
+
+# IDEs
+.vscode/
+*.code-workspace
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporários
+*.tmp
+*~
