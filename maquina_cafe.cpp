@@ -1,4 +1,4 @@
-// Projeto Máquina de Café - ByteCoffee (C++)
+// Projeto Máquina de Café - snacks
 // Autor: Afonso Rosa
 // Data: 11/03/2026
 // Descrição: Máquina de café automática com gestão completa de inventário
