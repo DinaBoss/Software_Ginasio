@@ -1,11 +1,11 @@
 # Projeto Máquina de Café - ByteCoffee
 
-Projeto de software para máquina de café automática desenvolvido como parte da avaliação de Programação e Sistemas de Informação.
+Projeto de software para máquina de café automática desenvolvido em C++ como parte da avaliação de Programação e Sistemas de Informação.
 
 ## 📋 Objetivos do Projeto
 
 Aplicar os princípios e conceitos fundamentais da programação:
-- ✅ Desenvolver programas usando linguagem C
+- ✅ Desenvolver programas usando linguagem C++
 - ✅ Utilizar diferentes estruturas de controlo
 - ✅ Elaborar programa recorrendo a subprogramas
 - ✅ Adequar estruturas de dados aos problemas
@@ -32,19 +32,19 @@ Aplicar os princípios e conceitos fundamentais da programação:
 
 ```
 maquina-cafe-projeto/
-├── maquina_cafe_original.c    # Versão base (módulos anteriores)
-├── maquina_cafe_novo.c       # Versão atualizada (em desenvolvimento)
-├── README.md                   # Documentação do projeto
-└── .gitignore                 # Ficheiros ignorados
+├── maquina_cafe.cpp           # Versão completa em C++
+├── README.md                  # Documentação do projeto
+└── .gitignore                # Ficheiros ignorados
 ```
 
 ## 🔧 Tecnologias Utilizadas
 
-- **Linguagem**: C
-- **Compilador**: GCC/MinGW
-- **Estruturas**: Arrays, Structs
+- **Linguagem**: C++
+- **Compilador**: G++/MinGW
+- **Estruturas**: Vector, Structs
 - **Controlo**: if/else, while, switch
 - **Modularização**: Funções especializadas
+- **Bibliotecas**: iostream, string, iomanip, vector
 
 ## 📊 Critérios de Avaliação
 
@@ -60,7 +60,7 @@ maquina-cafe-projeto/
 
 ```bash
 # Compilar
-gcc maquina_cafe_original.c -o maquina_cafe.exe
+g++ maquina_cafe.cpp -o maquina_cafe.exe
 
 # Executar
 ./maquina_cafe.exe
@@ -70,20 +70,45 @@ gcc maquina_cafe_original.c -o maquina_cafe.exe
 
 - **Autor**: Afonso Rosa
 - **Data**: 11/03/2026
-- **Versão**: 1.0 (Original) + 2.0 (Atualizada)
+- **Versão**: 1.0 (C++ Completo)
 - **Repositório**: https://github.com/rosinhaa23/maquina-cafe-projeto
-
-## 🔄 Commits de Desenvolvimento
-
-1. **Commit inicial**: Programa original dos módulos anteriores
-2. **Desenvolvimento**: Implementação das novas funcionalidades
-3. **Refatoração**: Melhoria da estrutura e qualidade
-4. **Testes**: Validação de todos os cenários
-5. **Final**: Versão completa e documentada
 
 ## 🎯 Entrega
 
-- **Formato**: Código fonte (.c)
+- **Formato**: Código fonte (.cpp)
 - **Repositório**: Obrigatório no GitHub
 - **Data limite**: 12 de março de 2026
 - **Link**: Entrega no Classroom com URL do repositório
+
+## 📋 Funcionalidades Implementadas
+
+### Sistema de Vendas
+- Menu dinâmico com até 10 produtos
+- Validação de entradas inválidas
+- Sistema de pagamento progressivo
+- Cálculo automático de troco
+- Cancelamento com devolução total
+- Impressão opcional de talão
+
+### Gestão de Inventário
+- Configuração dinâmica de produtos
+- Controlo de stock (máximo 12 unidades)
+- Indicação automática de "ESGOTADO"
+- Reabastecimento controlado
+- Relatório detalhado de vendas
+- Estatísticas finais
+
+### Segurança e Validação
+- PIN administrador (1234)
+- 3 tentativas de acesso
+- Validação de capacidades
+- Tratamento de erros robusto
+
+## 🏆 Diferenciais
+
+- **C++ Moderno**: Uso de vector, string, iomanip
+- **Interface Limpa**: Menu intuitivo e organizado
+- **Código Modular**: Funções bem estruturadas
+- **Documentação Completa**: Comentários explicativos
+- **Tratamento de Erros**: Validações robustas
+- **Relatórios Detalhados**: Movimentos por produto
