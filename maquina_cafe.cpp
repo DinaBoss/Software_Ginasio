@@ -1,12 +1,15 @@
-// Projeto Máquina de Café - snacks
-// Autor: Afonso Rosa
+// Projeto Maquina de Cafe - snacks
+// Autor: Afonso Rosa e Dinis Monteiro
 // Data: 11/03/2026
-// Descrição: Máquina de café automática com gestão completa de inventário
+// Descricao: Maquina de cafe automatica com gestao completa de inventario
 
 #include <iostream>
 #include <string>
 #include <iomanip>
 #include <vector>
+#include <locale>
+#include <algorithm>
+#include <limits>
 
 using namespace std;
 
@@ -37,6 +40,39 @@ vector<Produto> produtos;
 vector<Movimento> movimentos;
 double total_vendido = 0.0;
 
+// Funções de validação robustas
+int ler_inteiro(const string& mensagem) {
+    int valor;
+    while (true) {
+        cout << mensagem;
+        cin >> valor;
+        if (cin.good()) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return valor;
+        } else {
+            cout << "Valor invalido! Digite um numero inteiro." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+}
+
+double ler_decimal(const string& mensagem) {
+    double valor;
+    while (true) {
+        cout << mensagem;
+        cin >> valor;
+        if (cin.good()) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return valor;
+        } else {
+            cout << "Valor invalido! Digite um numero decimal." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+}
+
 // Funções principais
 void inicializar_produtos();
 void mostrar_menu();
@@ -50,13 +86,13 @@ void reabastecer_produtos();
 void mostrar_estatisticas();
 
 int main() {
-    // Configurar locale para português
+    // Configurar locale para portugues
     setlocale(LC_ALL, "Portuguese");
     
     inicializar_produtos();
     
-    cout << "=== MÁQUINA DE CAFÉ BYTECOFFEE v2.0 ===" << endl;
-    cout << "Sistema atualizado com gestão completa" << endl;
+    cout << "=== MAQUINA DE CAFE BYTECOFFEE v2.0 ===" << endl;
+    cout << "Sistema atualizado com gestao completa" << endl;
     cout << "Bem-vindo!" << endl << endl;
     
     while (true) {
@@ -64,10 +100,10 @@ int main() {
         
         int opcao;
         cout << "Digite sua opção: ";
-        cin >> opcao;
+        opcao = ler_inteiro("");
         
         if (opcao == 0) {
-            cout << "Encerrando máquina de café..." << endl;
+            cout << "Encerrando maquina de cafe..." << endl;
             mostrar_estatisticas();
             break;
         } else if (opcao == -99) {
@@ -92,48 +128,48 @@ void inicializar_produtos() {
 void mostrar_menu() {
     cout << endl << "=== MENU DE PRODUTOS ===" << endl;
     if (produtos.empty()) {
-        cout << "NECESSÁRIO CONFIGURAR PRODUTOS (Modo Gestão -99)" << endl;
+        cout << "NECESSARIO CONFIGURAR PRODUTOS (Modo Gestao -99)" << endl;
     } else {
         for (size_t i = 0; i < produtos.size(); i++) {
             if (produtos[i].esgotado) {
                 cout << produtos[i].codigo << " - " << produtos[i].descricao << " - ESGOTADO" << endl;
             } else {
                 cout << produtos[i].codigo << " - " << produtos[i].descricao 
-                     << " - R$" << fixed << setprecision(2) << produtos[i].preco 
+                     << " - €" << fixed << setprecision(2) << produtos[i].preco 
                      << " (Stock: " << produtos[i].stock << ")" << endl;
             }
         }
     }
     cout << "0 - Cancelar" << endl;
-    cout << "-99 - Modo Gestão" << endl;
+    cout << "-99 - Modo Gestao" << endl;
     cout << "========================" << endl;
 }
 
 void processar_venda(int index) {
     if (produtos[index].esgotado || produtos[index].stock <= 0) {
-        cout << "Produto esgotado! Escolha outra opção." << endl;
+        cout << "Produto esgotado! Escolha outra opcao." << endl;
         return;
     }
     
     cout << endl << "=== VENDA: " << produtos[index].descricao << " ===" << endl;
-    cout << "Preço: R$" << fixed << setprecision(2) << produtos[index].preco << endl;
+    cout << "Preço: €" << fixed << setprecision(2) << produtos[index].preco << endl;
     
     double valor_inserido = 0.0;
     double moeda;
     
     while (valor_inserido < produtos[index].preco) {
-        cout << "Valor inserido: R$" << fixed << setprecision(2) << valor_inserido << endl;
-        cout << "Insira moeda (0 para cancelar): R$";
-        cin >> moeda;
+        cout << "Valor inserido: €" << fixed << setprecision(2) << valor_inserido << endl;
+        cout << "Insira moeda (0 para cancelar): €";
+        moeda = ler_decimal("");
         
         if (moeda == 0) {
             cout << "Cancelamento solicitado." << endl;
             if (valor_inserido > 0) {
-                cout << "Devolvendo R$" << fixed << setprecision(2) << valor_inserido << endl;
+                cout << "Devolvendo €" << fixed << setprecision(2) << valor_inserido << endl;
             }
             return;
         } else if (moeda < 0) {
-            cout << "Valor inválido! Tente novamente." << endl;
+            cout << "Valor invalido! Tente novamente." << endl;
         } else {
             valor_inserido += moeda;
         }
@@ -175,16 +211,16 @@ void processar_venda(int index) {
             movimentos[mov_index].valor_total += produtos[index].preco;
         }
         
-        cout << endl << "=== PAGAMENTO CONCLUÍDO ===" << endl;
+        cout << endl << "=== PAGAMENTO CONCLUIDO ===" << endl;
         cout << "Produto: " << produtos[index].descricao << endl;
-        cout << "Valor pago: R$" << fixed << setprecision(2) << valor_inserido << endl;
-        cout << "Preço: R$" << fixed << setprecision(2) << produtos[index].preco << endl;
-        cout << "Troco: R$" << fixed << setprecision(2) << troco << endl;
+        cout << "Valor pago: €" << fixed << setprecision(2) << valor_inserido << endl;
+        cout << "Preco: €" << fixed << setprecision(2) << produtos[index].preco << endl;
+        cout << "Troco: €" << fixed << setprecision(2) << troco << endl;
         
-        // Perguntar sobre talão
+        // Perguntar sobre talao
         int imprimir;
-        cout << "Deseja imprimir talão? (1-Sim, 0-Não): ";
-        cin >> imprimir;
+        cout << "Deseja imprimir talao? (1-Sim, 0-Nao): ";
+        imprimir = ler_inteiro("");
         
         if (imprimir == 1) {
             imprimir_talao(produtos[index].codigo, valor_inserido, troco, 1);
@@ -195,16 +231,25 @@ void processar_venda(int index) {
 }
 
 void imprimir_talao(int codigo, double valor_pago, double troco, int quantidade) {
+    // Encontrar produto pelo código
+    string descricao_produto = "Produto nao encontrado";
+    for (size_t i = 0; i < produtos.size(); i++) {
+        if (produtos[i].codigo == codigo) {
+            descricao_produto = produtos[i].descricao;
+            break;
+        }
+    }
+    
     cout << endl;
     cout << "==============================" << endl;
-    cout << "    TALÃO DE VENDA" << endl;
+    cout << "    TALAO DE VENDA" << endl;
     cout << "==============================" << endl;
     cout << "Data: 11/03/2026" << endl;
     cout << "Código: " << codigo << endl;
-    cout << "Produto: " << produtos[codigo-1].descricao << endl;
+    cout << "Produto: " << descricao_produto << endl;
     cout << "Quantidade: " << quantidade << endl;
-    cout << "Valor pago: R$" << fixed << setprecision(2) << valor_pago << endl;
-    cout << "Troco: R$" << fixed << setprecision(2) << troco << endl;
+    cout << "Valor pago: €" << fixed << setprecision(2) << valor_pago << endl;
+    cout << "Troco: €" << fixed << setprecision(2) << troco << endl;
     cout << "==============================" << endl;
     cout << "   Obrigado pela compra!" << endl;
     cout << "==============================" << endl << endl;
@@ -231,36 +276,43 @@ bool validar_pin() {
 }
 
 void configurar_produtos() {
-    cout << endl << "=== CONFIGURAÇÃO DE PRODUTOS ===" << endl;
+    cout << endl << "=== CONFIGURACAO DE PRODUTOS ===" << endl;
     cout << "Produtos atuais: " << produtos.size() << "/" << MAX_PRODUTOS << endl;
     
     int opcao;
     do {
-        cout << endl << "--- MENU CONFIGURAÇÃO ---" << endl;
+        cout << endl << "--- MENU CONFIGURACAO ---" << endl;
         cout << "1 - Adicionar produto" << endl;
         cout << "2 - Alterar produto existente" << endl;
         cout << "3 - Listar produtos" << endl;
         cout << "0 - Voltar" << endl;
         cout << "Opção: ";
-        cin >> opcao;
+        opcao = ler_inteiro("");
         
         switch (opcao) {
             case 1: {
                 if (produtos.size() >= MAX_PRODUTOS) {
-                    cout << "Capacidade máxima de produtos atingida!" << endl;
+                    cout << "Capacidade maxima de produtos atingida!" << endl;
                     break;
                 }
                 
                 Produto novo;
                 cout << "Código do produto: ";
-                cin >> novo.codigo;
+                novo.codigo = ler_inteiro("");
                 cout << "Descrição: ";
                 cin.ignore();
                 getline(cin, novo.descricao);
-                cout << "Preço: R$";
-                cin >> novo.preco;
-                cout << "Stock inicial (máx " << CAPACIDADE_STOCK << "): ";
-                cin >> novo.stock;
+                cout << "Preço: €";
+                novo.preco = ler_decimal("");
+                
+                // Validar stock
+                do {
+                    cout << "Stock inicial (máx " << CAPACIDADE_STOCK << "): ";
+                    novo.stock = ler_inteiro("");
+                    if (novo.stock < 0 || novo.stock > CAPACIDADE_STOCK) {
+                        cout << "Stock inválido! Digite um valor entre 0 e " << CAPACIDADE_STOCK << endl;
+                    }
+                } while (novo.stock < 0 || novo.stock > CAPACIDADE_STOCK);
                 
                 novo.esgotado = (novo.stock == 0);
                 
@@ -271,7 +323,7 @@ void configurar_produtos() {
             case 2: {
                 int codigo;
                 cout << "Digite o código do produto a alterar: ";
-                cin >> codigo;
+                codigo = ler_inteiro("");
                 
                 int index = -1;
                 for (size_t i = 0; i < produtos.size(); i++) {
@@ -282,7 +334,7 @@ void configurar_produtos() {
                 }
                 
                 if (index == -1) {
-                    cout << "Produto não encontrado!" << endl;
+                    cout << "Produto nao encontrado!" << endl;
                     break;
                 }
                 
@@ -291,8 +343,7 @@ void configurar_produtos() {
                 cout << "2 - Alterar preço" << endl;
                 cout << "3 - Alterar stock" << endl;
                 cout << "Opção: ";
-                int alt;
-                cin >> alt;
+                int alt = ler_inteiro("");
                 
                 switch (alt) {
                     case 1:
@@ -301,12 +352,17 @@ void configurar_produtos() {
                         getline(cin, produtos[index].descricao);
                         break;
                     case 2:
-                        cout << "Novo preço: R$";
-                        cin >> produtos[index].preco;
+                        cout << "Novo preço: €";
+                        produtos[index].preco = ler_decimal("");
                         break;
                     case 3:
-                        cout << "Novo stock (máx " << CAPACIDADE_STOCK << "): ";
-                        cin >> produtos[index].stock;
+                        do {
+                            cout << "Novo stock (max " << CAPACIDADE_STOCK << "): ";
+                            produtos[index].stock = ler_inteiro("");
+                            if (produtos[index].stock < 0 || produtos[index].stock > CAPACIDADE_STOCK) {
+                                cout << "Stock inválido! Digite um valor entre 0 e " << CAPACIDADE_STOCK << endl;
+                            }
+                        } while (produtos[index].stock < 0 || produtos[index].stock > CAPACIDADE_STOCK);
                         produtos[index].esgotado = (produtos[index].stock == 0);
                         break;
                 }
@@ -317,7 +373,7 @@ void configurar_produtos() {
                 cout << endl << "--- LISTA DE PRODUTOS ---" << endl;
                 for (size_t i = 0; i < produtos.size(); i++) {
                     cout << produtos[i].codigo << " - " << produtos[i].descricao << endl;
-                    cout << "   Preço: R$" << fixed << setprecision(2) << produtos[i].preco << endl;
+                    cout << "   Preço: €" << fixed << setprecision(2) << produtos[i].preco << endl;
                     cout << "   Stock: " << produtos[i].stock << " " 
                          << (produtos[i].esgotado ? "(ESGOTADO)" : "") << endl;
                 }
@@ -341,7 +397,7 @@ void reabastecer_produtos() {
     
     int codigo, quantidade;
     cout << "Digite o código do produto (0 para voltar): ";
-    cin >> codigo;
+    codigo = ler_inteiro("");
     
     if (codigo == 0) return;
     
@@ -359,7 +415,7 @@ void reabastecer_produtos() {
     }
     
     cout << "Quantidade a adicionar (máx " << (CAPACIDADE_STOCK - produtos[index].stock) << "): ";
-    cin >> quantidade;
+    quantidade = ler_inteiro("");
     
     if (quantidade > 0 && quantidade <= CAPACIDADE_STOCK - produtos[index].stock) {
         produtos[index].stock += quantidade;
@@ -372,14 +428,23 @@ void reabastecer_produtos() {
 
 void consultar_movimentos() {
     cout << endl << "=== RELATÓRIO DE VENDAS ===" << endl;
-    cout << "Total vendido: R$" << fixed << setprecision(2) << total_vendido << endl;
+    cout << "Total vendido: €" << fixed << setprecision(2) << total_vendido << endl;
     cout << "Total de transações: " << movimentos.size() << endl;
     
     if (!movimentos.empty()) {
-        cout << endl << "--- VENDAS POR PRODUTO ---" << endl;
-        for (size_t i = 0; i < movimentos.size(); i++) {
-            cout << movimentos[i].descricao << ": " << movimentos[i].quantidade_vendida 
-                 << " unidades - R$" << fixed << setprecision(2) << movimentos[i].valor_total << endl;
+        // Criar cópia para ordenação alfabética
+        vector<Movimento> movimentos_ordenados = movimentos;
+        
+        // Ordenar alfabeticamente por descrição
+        sort(movimentos_ordenados.begin(), movimentos_ordenados.end(), 
+             [](const Movimento& a, const Movimento& b) {
+                 return a.descricao < b.descricao;
+             });
+        
+        cout << endl << "--- VENDAS POR PRODUTO (Ordem Alfabética) ---" << endl;
+        for (size_t i = 0; i < movimentos_ordenados.size(); i++) {
+            cout << movimentos_ordenados[i].descricao << ": " << movimentos_ordenados[i].quantidade_vendida 
+                 << " unidades - €" << fixed << setprecision(2) << movimentos_ordenados[i].valor_total << endl;
         }
     }
     
@@ -396,7 +461,7 @@ void consultar_movimentos() {
 
 void mostrar_estatisticas() {
     cout << endl << "=== ESTATÍSTICAS FINAIS ===" << endl;
-    cout << "Total vendido no período: R$" << fixed << setprecision(2) << total_vendido << endl;
+    cout << "Total vendido no período: €" << fixed << setprecision(2) << total_vendido << endl;
     cout << "Total de produtos configurados: " << produtos.size() << endl;
     cout << "Total de transações: " << movimentos.size() << endl;
     
@@ -423,7 +488,7 @@ void modo_gestao() {
         cout << "3 - Reabastecer produtos" << endl;
         cout << "0 - Sair do modo gestão" << endl;
         cout << "Opção: ";
-        cin >> opcao;
+        opcao = ler_inteiro("");
         
         switch (opcao) {
             case 1:
