@@ -1,5 +1,5 @@
 // Projeto Máquina de Café - snacks
-// Autor: Afonso Rosa
+// Autor: Afonso Rosa e Dinis Monteiro
 // Data: 11/03/2026
 // Descrição: Máquina de café automática com gestão completa de inventário
 
